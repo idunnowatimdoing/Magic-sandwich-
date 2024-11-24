@@ -1,1 +1,162 @@
+import { useState } from 'react'
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Switch } from "@/components/ui/switch"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { ChevronDown } from 'lucide-react'
 
+export default function CapPreferenceSettings() {
+  const [capFrequency, setCapFrequency] = useState('weekly')
+  const [customFrequency, setCustomFrequency] = useState('1')
+  const [customFrequencyUnit, setCustomFrequencyUnit] = useState('days')
+  const [capUploadVoice, setCapUploadVoice] = useState(true)
+  const [capUploadChatbot, setCapUploadChatbot] = useState(true)
+  const [capDeliveryDashboard, setCapDeliveryDashboard] = useState(true)
+  const [capDeliveryEmail, setCapDeliveryEmail] = useState(false)
+  const [capDeliveryChatbot, setCapDeliveryChatbot] = useState(false)
+  const [capDeliveryVoice, setCapDeliveryVoice] = useState(false)
+  const [capSync, setCapSync] = useState(true)
+  const [showAdvanced, setShowAdvanced] = useState(false)
+
+  return (
+    <div className="container mx-auto p-4 space-y-6">
+      <h1 className="text-3xl font-bold">Cap Preference Settings</h1>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Cap Frequency</CardTitle>
+          <CardDescription>Choose how often you want to receive cap updates</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <RadioGroup value={capFrequency} onValueChange={setCapFrequency}>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="daily" id="daily" />
+              <Label htmlFor="daily">Daily</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="weekly" id="weekly" />
+              <Label htmlFor="weekly">Weekly</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="monthly" id="monthly" />
+              <Label htmlFor="monthly">Monthly</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="custom" id="custom" />
+              <Label htmlFor="custom">Custom</Label>
+            </div>
+          </RadioGroup>
+          {capFrequency === 'custom' && (
+            <div className="mt-4 flex items-center space-x-2">
+              <Label htmlFor="customFrequency">Every</Label>
+              <Select value={customFrequency} onValueChange={setCustomFrequency}>
+                <SelectTrigger className="w-20">
+                  <SelectValue placeholder="Select frequency" />
+                </SelectTrigger>
+                <SelectContent>
+                  {[...Array(30)].map((_, i) => (
+                    <SelectItem key={i + 1} value={(i + 1).toString()}>{i + 1}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Select value={customFrequencyUnit} onValueChange={setCustomFrequencyUnit}>
+                <SelectTrigger className="w-32">
+                  <SelectValue placeholder="Select unit" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="days">Days</SelectItem>
+                  <SelectItem value="weeks">Weeks</SelectItem>
+                  <SelectItem value="months">Months</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Cap Upload</CardTitle>
+          <CardDescription>Choose how you want to upload your cap information</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="cap-upload-voice">Enable Voice</Label>
+            <Switch
+              id="cap-upload-voice"
+              checked={capUploadVoice}
+              onCheckedChange={setCapUploadVoice}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="cap-upload-chatbot">Enable Chatbot</Label>
+            <Switch
+              id="cap-upload-chatbot"
+              checked={capUploadChatbot}
+              onCheckedChange={setCapUploadChatbot}
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Cap Delivery</CardTitle>
+          <CardDescription>Choose how you want to receive your cap information</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="cap-delivery-dashboard">Enable Dashboard</Label>
+            <Switch
+              id="cap-delivery-dashboard"
+              checked={capDeliveryDashboard}
+              onCheckedChange={setCapDeliveryDashboard}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="cap-delivery-email">Enable Email</Label>
+            <Switch
+              id="cap-delivery-email"
+              checked={capDeliveryEmail}
+              onCheckedChange={setCapDeliveryEmail}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="cap-delivery-chatbot">Enable Chatbot</Label>
+            <Switch
+              id="cap-delivery-chatbot"
+              checked={capDeliveryChatbot}
+              onCheckedChange={setCapDeliveryChatbot}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="cap-delivery-voice">Enable Voice Assistant</Label>
+            <Switch
+              id="cap-delivery-voice"
+              checked={capDeliveryVoice}
+              onCheckedChange={setCapDeliveryVoice}
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Cap Sync</CardTitle>
+          <CardDescription>Enable or disable cap synchronization</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="cap-sync">Cap Sync</Label>
+            <Switch
+              id="cap-sync"
+              checked={capSync}
+              onCheckedChange={setCapSync}
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      
